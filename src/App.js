@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faPaperPlane, faMessage } from '@fortawesome/free-solid-svg-icons'
 
 
 const App = () => {
@@ -67,13 +67,12 @@ const App = () => {
 
     const currentChat = previousChats.filter(previousChat => previousChat.title === currentTitle);
     const uniqueTitles = Array.from(new Set(previousChats.map(previousChat => previousChat.title)));
-    console.log(uniqueTitles);
     return (
         <div className="app">
             <section className="side-bar">
                 <button onClick={(createNewChat)}><FontAwesomeIcon icon={faPlus}></FontAwesomeIcon> New chat</button>
                 <ul className="history">
-                    {uniqueTitles?.map((uniqueTitle, index) => <li key={index} onClick={() => handleClick(uniqueTitle)}>{uniqueTitle}</li>)}
+                    {uniqueTitles?.map((uniqueTitle, index) => <li key={index} onClick={() => handleClick(uniqueTitle)}><FontAwesomeIcon className="message" icon={faMessage} />{uniqueTitle}</li>)}
                 </ul>
                 <nav>
                     <p>Made by Higor</p>

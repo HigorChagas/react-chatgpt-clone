@@ -105,15 +105,31 @@ input:focus {
 }
 
 .history {
-    padding: 10px;
-    margin: 10px;
+    padding: 0 10px;
+    margin: 0 10px;
     height: 100%;
 }
 
 .history li {
+    width: 95%;
     list-style-type: none;
-    padding: 15px 0;
+    padding: 15px 10px;
+    margin: 0;
     cursor: pointer;
+    font-size: 14px;
+}
+
+.history li:hover {
+    background-color: rgba(42, 43, 50, 0.9);
+    border-radius: 10px;
+}
+
+.history li:active {
+    background-color: rgba(52, 53, 65, 0.8);
+}
+
+.message {
+    padding-right: 10px;
 }
 
 .feed {
