@@ -77,7 +77,6 @@ function LightModeButton() {
     };
 
     useEffect(() => {
-        console.log(currentTitle, value, message);
         if(!currentTitle && value && message) {
             setCurrentTitle(value);
         }
