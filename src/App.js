@@ -1,6 +1,9 @@
-import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faPaperPlane, faMessage } from '@fortawesome/free-solid-svg-icons'
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faPaperPlane, faMessage, faGear, faX } from '@fortawesome/free-solid-svg-icons';
+import ReactModal from "react-modal";
+
+ReactModal.setAppElement('#root');
 
 
 const App = () => {
@@ -8,12 +11,45 @@ const App = () => {
     const [ message, setMessage ] = useState(null);
     const [ previousChats, setPreviousChats ] = useState([]);
     const [ currentTitle, setCurrentTitle ] = useState(null);
+    const [ modalIsOpen, setIsOpen ] = React.useState(false);
 
     const createNewChat = () => {
         setMessage(null);
         setValue('');
         setCurrentTitle(null);
     }
+
+    const openModal = () => {
+        setIsOpen(true);
+    }
+
+    const closeModal = () => {
+        setIsOpen(false);
+    }
+    
+    const Button = () => {
+        return <div role="button" className="modal-close" abIndex={0} onClick={closeModal}><FontAwesomeIcon icon={faX} /></div>
+    }
+
+function LightModeButton() {
+  const [isLightMode, setIsLightMode] = useState(false);
+  const body = document.body;
+
+  function handleClick() {
+    setIsLightMode(!isLightMode);
+    body.classList.toggle("light-mode");
+  }
+
+  return (
+    <button
+      className={`light-mode-btn ${isLightMode ? "light-mode" : ""}`}
+      onClick={handleClick}
+    >
+      {isLightMode ? "Dark" : "Light"}
+    </button>
+  );
+}
+    
 
     const handleClick = (uniqueTitle) => {
         setCurrentTitle(uniqueTitle)
@@ -61,9 +97,7 @@ const App = () => {
                 ]
             ))
         }
-    }, [message, currentTitle]);
-
-    console.log(previousChats);
+    }, [message, currentTitle, value]);
 
     const currentChat = previousChats.filter(previousChat => previousChat.title === currentTitle);
     const uniqueTitles = Array.from(new Set(previousChats.map(previousChat => previousChat.title)));
@@ -72,11 +106,30 @@ const App = () => {
             <section className="side-bar">
                 <button onClick={(createNewChat)}><FontAwesomeIcon icon={faPlus}></FontAwesomeIcon> New chat</button>
                 <ul className="history">
-                    {uniqueTitles?.map((uniqueTitle, index) => <li key={index} onClick={() => handleClick(uniqueTitle)}><FontAwesomeIcon className="message" icon={faMessage} />{uniqueTitle}</li>)}
+                    {uniqueTitles?.map((uniqueTitle, index) => <li className="btn" key={index} onClick={() => handleClick(uniqueTitle)}><FontAwesomeIcon className="message" icon={faMessage} />{uniqueTitle}</li>)}
                 </ul>
                 <nav>
-                    <p>Made by Higor</p>
+                   
+                    <button className="nav-item" onClick={openModal}>
+                        <ReactModal className="modal" overlayClassName="modal-overlay" isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Modal de exemplo">
+                            <div className="modal-body">
+                                <h3 className="modal-title">Settings</h3>
+                                <Button></Button>
+                            </div>
+                            <div className="modal-body">
+                            <p className="modal-text">Theme</p>
+                            <LightModeButton />
+                            </div>
+                           
+                        </ReactModal>
+                        <FontAwesomeIcon className="gear" icon={faGear} />
+                        Settings
+                    </button>
                 </nav>
+                <footer>
+                    <p>Made by Higor</p>
+                </footer>
+                
             </section>
             <section className="main">
                 {!currentTitle && <h1>HigorGPT</h1>}
